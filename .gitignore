@@ -10,3 +10,5 @@ venv/
 .env
 .env.local
 *.env
+.coverage
+.pytest_cache/

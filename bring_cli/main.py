@@ -106,32 +106,30 @@ async def _run(args: argparse.Namespace) -> None:
 
 async def _cmd_lists(bring: Bring, args: argparse.Namespace) -> None:
     response = await bring.load_lists()
-    lists = response.get("lists", [])
+    lists = response.lists if hasattr(response, "lists") else []
     if args.json:
-        print(json.dumps(lists, indent=2, ensure_ascii=False))
+        rows = [{"name": lst.name, "listUuid": lst.listUuid} for lst in lists]
+        print(json.dumps(rows, indent=2, ensure_ascii=False))
         return
     for lst in lists:
-        name = lst.get("name", "?")
-        uuid = lst.get("listUuid", "?")
-        print(f"{name}\t{uuid}")
+        print(f"{lst.name}\t{lst.listUuid}")
 
 
 async def _cmd_list(bring: Bring, args: argparse.Namespace) -> None:
     list_uuid = _require_list_uuid()
     response = await bring.get_list(list_uuid)
-    items = response.get("purchase", [])
+    purchase = response.items.purchase if hasattr(response, "items") else []
     if args.json:
-        print(json.dumps(items, indent=2, ensure_ascii=False))
+        rows = [{"name": i.itemId, "spec": i.specification} for i in purchase]
+        print(json.dumps(rows, indent=2, ensure_ascii=False))
         return
-    if not items:
+    if not purchase:
         print("(empty list)")
         return
-    for item in items:
-        name = item.get("name", item.get("itemId", "?"))
-        spec = item.get("specification", "")
-        line = f"  {name}"
-        if spec:
-            line += f" ({spec})"
+    for item in purchase:
+        line = f"  {item.itemId}"
+        if item.specification:
+            line += f" ({item.specification})"
         print(line)
 
 

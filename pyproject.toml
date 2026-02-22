@@ -6,8 +6,15 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
 dependencies = [
-    "bring-api>=3.0.0",
-    "aiohttp>=3.9.0",
+    "bring-api>=1.0.0,<4.0.0",
+    "aiohttp>=3.9.0,<4.0.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "pytest-cov>=4.0",
 ]
 
 [project.scripts]
@@ -16,3 +23,9 @@ bring = "bring_cli.main:main"
 [build-system]
 requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

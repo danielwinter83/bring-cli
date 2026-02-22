@@ -29,3 +29,10 @@ where = ["."]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+version_variables = ["bring_cli/__init__.py:__version__"]
+branch = "main"
+commit_message = "chore(release): v{version}"
+build_command = ""

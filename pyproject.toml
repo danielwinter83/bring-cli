@@ -1,6 +1,6 @@
 [project]
 name = "bring-cli"
-version = "1.0.0"
+version = "1.0.1"
 description = "CLI for the Bring! shopping list API"
 readme = "README.md"
 license = "MIT"
